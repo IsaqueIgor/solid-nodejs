@@ -6,7 +6,9 @@ class ListAllUsersUseCase {
 
   execute(): User[] {
     // Complete aqui
-    return this.usersRepository.list();
+    const users = this.usersRepository.list();
+
+    return users;
   }
 }
 

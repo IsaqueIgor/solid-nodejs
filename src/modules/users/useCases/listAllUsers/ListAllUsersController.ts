@@ -9,7 +9,7 @@ class ListAllUsersController {
     // Complete aqui
     const all = this.listAllUsersUseCase.execute();
 
-    return response.send().json(all);
+    return response.json(all);
   }
 }
 
