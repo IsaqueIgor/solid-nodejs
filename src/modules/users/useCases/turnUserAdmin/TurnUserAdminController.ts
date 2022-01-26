@@ -7,11 +7,15 @@ class TurnUserAdminController {
 
   handle(request: Request, response: Response): Response {
     // Complete aqui
-    const { user_id } = request.body;
+    try {
+      const { user_id } = request.params;
 
-    this.turnUserAdminUseCase.execute(user_id);
+      const updatedUser = this.turnUserAdminUseCase.execute({ user_id });
 
-    return response.send();
+      return response.status(200).json(updatedUser);
+    } catch (err) {
+      return response.status(404).json({ error: err.message });
+    }
   }
 }
 
