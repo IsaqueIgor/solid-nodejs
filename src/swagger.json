@@ -1,0 +1,295 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Users Documentation",
+    "description": "This is an API NodeJS Solid Documentation",
+    "version": "1.0.0",
+    "contact": {
+      "email": "isaqueigor@ucl.br"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a User",
+        "description": "Create a new User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Category Name Sample",
+                  "email": "sample@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "email Already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "List All Users",
+        "description": "List all Users",
+        "parameters" : [ {
+          "in" : "header",
+          "name" : "user_id",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema":{
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id" : {
+                        "type" : "string",
+                        "format" : "uuid",
+                        "example" : "f02erf11-2ad7-4e94-a1ae-08rf5334b3f"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example" : "Isaque Igor"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example" : "isaqueigor@ucl.br"
+                      },
+                      "admin": {
+                        "type": "boolean",
+                        "example" : true
+                      },
+                      "created_at" : {
+                        "type" : "string",
+                        "format" : "date-time",
+                        "example" : "2022-01-26T19:14:25.752Z"
+                      },
+                      "updated_at" : {
+                        "type" : "string",
+                        "format" : "date-time",
+                        "example" : "2022-01-26T19:14:25.752Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Usuario sem permissão.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "error" : {
+                      "type" : "string",
+                      "example" : "User must be an administrator"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary":"Return all users",
+        "operationId" : "listUser",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "user_id",
+          "description" : "User Id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "id" : {
+                      "type" : "string",
+                      "format" : "uuid",
+                      "example" : "f02ref11-2ad7-4e94-a1ae-08f1f5334b3f"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "example" : "Isaque Igor"
+                    },
+                    "email" : {
+                      "type" : "string",
+                      "example" : "isaqueigor@gmail.com"
+                    },
+                    "created_at" : {
+                      "type" : "string",
+                      "format" : "date-time",
+                      "example" : "2022-01-28T18:04:25.752Z"
+                    },
+                    "updated_at" : {
+                      "type" : "string",
+                      "format" : "date-time",
+                      "example" : "2022-01-28T18:04:25.752Z"
+                    },
+                    "admin" : {
+                      "type" : "boolean",
+                      "example" : false
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "error" : {
+                      "type" : "string",
+                      "example" : "User not found"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin" : {
+      "patch" : {
+        "tags" : [ "Users" ],
+        "summary" : "Set Admin to User",
+        "operationId" : "updatedAsAdmin",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "user_id",
+          "description" : "user Id",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "id" : {
+                      "type" : "string",
+                      "format" : "uuid",
+                      "example" : "f02cef11-2ad7-4e94-a1ae-08f1f5334b3f"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "example" : "Isaque Igor"
+                    },
+                    "email" : {
+                      "type" : "string",
+                      "example" : "isaqueigor@gmail.com"
+                    },
+                    "created_at" : {
+                      "type" : "string",
+                      "format" : "date-time",
+                      "example" : "2022-07-28T18:04:25.752Z"
+                    },
+                    "updated_at" : {
+                      "type" : "string",
+                      "format" : "date-time",
+                      "example" : "2022-07-28T18:04:25.752Z"
+                    },
+                    "admin" : {
+                      "type" : "boolean",
+                      "example" : true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Usuario não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "error" : {
+                      "type" : "string",
+                      "example" : "User not found"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "requestBodies" : {
+      "Users" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "required" : [ "name", "email" ],
+              "properties" : {
+                "name" : {
+                  "type" : "string",
+                  "example" : "Isaque Igor"
+                },
+                "email" : {
+                  "type" : "string",
+                  "example" : "isaqueigor@gmail.com"
+                }
+              },
+              "type" : "object"
+            }
+          }
+        },
+        "description" : "Required Fields to create an User.",
+        "required" : true
+      }
+    }
+  }
+}
